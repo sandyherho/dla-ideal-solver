@@ -1,0 +1,22 @@
+# Case 2: Multiple Seeds - Competitive Growth
+# Studies aggregate competition and fusion events
+
+scenario_name = Case 2 - Multiple Seeds
+
+# Lattice
+lattice_size = 512
+
+# Particles
+n_walkers = 15000
+n_seeds = 12
+
+# Simulation
+max_iterations = 150000
+injection_mode = random
+snapshot_interval = 150
+
+# Output
+save_netcdf = true
+save_animation = true
+fps = 20
+colormap = cool

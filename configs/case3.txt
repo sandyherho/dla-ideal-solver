@@ -1,0 +1,23 @@
+# Case 3: Radial Injection - Controlled Growth
+# Particles injected from a circle for more uniform growth
+
+scenario_name = Case 3 - Radial Injection
+
+# Lattice
+lattice_size = 512
+
+# Particles
+n_walkers = 10000
+n_seeds = 1
+
+# Simulation
+max_iterations = 100000
+injection_mode = radial
+injection_radius = 180
+snapshot_interval = 100
+
+# Output
+save_netcdf = true
+save_animation = true
+fps = 20
+colormap = viridis
