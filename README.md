@@ -2,7 +2,16 @@
 
 [![Python](https://img.shields.io/badge/python-3.8%2B-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![PyPI version](https://img.shields.io/pypi/v/dla-ideal-solver.svg)](https://pypi.org/project/dla-ideal-solver/)
+[![PyPI downloads](https://img.shields.io/pypi/dm/dla-ideal-solver.svg)](https://pypi.org/project/dla-ideal-solver/)
+[![PyPI status](https://img.shields.io/pypi/status/dla-ideal-solver.svg)](https://pypi.org/project/dla-ideal-solver/)
+
+[![NumPy](https://img.shields.io/badge/NumPy-%23013243.svg?logo=numpy&logoColor=white)](https://numpy.org/)
+[![Matplotlib](https://img.shields.io/badge/Matplotlib-%23ffffff.svg?logo=Matplotlib&logoColor=black)](https://matplotlib.org/)
 [![Numba](https://img.shields.io/badge/accelerated-numba-orange.svg)](https://numba.pydata.org/)
+[![netCDF4](https://img.shields.io/badge/netCDF4-1.5.0+-blue.svg)](https://unidata.github.io/netcdf4-python/)
+[![tqdm](https://img.shields.io/badge/tqdm-4.60.0+-green.svg)](https://tqdm.github.io/)
+[![Pillow](https://img.shields.io/badge/Pillow-8.0.0+-yellow.svg)](https://python-pillow.org/)
 
 High-performance Diffusion-Limited Aggregation (DLA) solver with Numba JIT compilation and parallel rendering.
 
@@ -14,7 +23,7 @@ Simulates particle aggregation through random walks on a 2D lattice:
 2. **Sticking Rule**: Particles stick when adjacent to existing aggregate
 3. **Growth**: Dendritic structures emerge from stochastic aggregation
 
-**Fractal Analysis**: Mass-radius relationship M(R) ∝ R^D gives fractal dimension D ≈ 1.71 (2D DLA)
+**Fractal Analysis**: Mass-radius relationship $M(R) \propto R^D$ gives fractal dimension $D \approx 1.71$ (2D DLA)
 
 ## Features
 
@@ -22,7 +31,7 @@ Simulates particle aggregation through random walks on a 2D lattice:
 - **Parallel rendering**: Multi-core GIF generation
 - **NetCDF output**: Compact compressed format
 - **4 test cases**: Classic, competitive, controlled, dense
-- **Fractal analysis**: Automatic D calculation
+- **Fractal analysis**: Automatic $D$ calculation
 
 ## Installation
 
@@ -100,7 +109,7 @@ snapshot_interval = 100     # Frames per N particles
 - `radii, masses`: Fractal analysis data
 
 **Attributes:**
-- `fractal_dimension`: D from M(R) fit
+- `fractal_dimension`: $D$ from $M(R)$ fit
 - `n_aggregates`: Number of clusters
 - `n_particles`: Total stuck particles
 
@@ -114,6 +123,18 @@ snapshots = data['snapshots'][:]
 D = data.fractal_dimension
 print(f"Fractal dimension: {D:.3f}")
 ```
+
+## Mathematical Background
+
+The fractal dimension $D$ is computed from the mass-radius scaling relationship:
+
+$$M(R) = \int_0^R \rho(r) \, dV \propto R^D$$
+
+where $M(R)$ is the mass within radius $R$ from the aggregate center. For 2D DLA:
+
+$$\log M(R) = D \log R + \text{const}$$
+
+The slope $D$ is obtained via linear regression on $\log$-$\log$ scale. Theoretical predictions give $D \approx 1.71$ for 2D DLA structures.
 
 ## Citation
 
@@ -140,11 +161,3 @@ print(f"Fractal dimension: {D:.3f}")
 ## License
 
 MIT License - See [LICENSE](LICENSE) for details.
-
-## References
-
-1. Witten, T. A., & Sander, L. M. (1981). Diffusion-limited aggregation, a kinetic critical phenomenon. *Physical Review Letters*, 47(19), 1400.
-
-2. Meakin, P. (1983). Formation of fractal clusters and networks by irreversible diffusion-limited aggregation. *Physical Review Letters*, 51(13), 1119.
-
-3. Vicsek, T. (1992). *Fractal Growth Phenomena* (2nd ed.). World Scientific.
