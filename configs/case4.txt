@@ -1,6 +1,7 @@
 # Case 4: High Density - Dense DLA
 # Higher walker density leads to denser structures
 # Different fractal dimension
+# Enhanced for detailed capture
 
 scenario_name = Case 4 - High Density
 
@@ -14,10 +15,16 @@ n_seeds = 1
 # Simulation
 max_iterations = 200000
 injection_mode = random
-snapshot_interval = 250
+
+# Enhanced Detail Capture (adjusted for more particles)
+snapshot_interval = 125
 
 # Output
 save_netcdf = true
 save_animation = true
-fps = 25
-colormap = hot
+
+# Slower Playback for Detail
+fps = 12
+
+# Elegant Colormap
+colormap = fire

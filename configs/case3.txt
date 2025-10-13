@@ -1,5 +1,6 @@
 # Case 3: Radial Injection - Controlled Growth
 # Particles injected from a circle for more uniform growth
+# Enhanced for detailed capture
 
 scenario_name = Case 3 - Radial Injection
 
@@ -14,10 +15,16 @@ n_seeds = 1
 max_iterations = 100000
 injection_mode = radial
 injection_radius = 180
-snapshot_interval = 100
+
+# Enhanced Detail Capture
+snapshot_interval = 50
 
 # Output
 save_netcdf = true
 save_animation = true
-fps = 20
+
+# Slower Playback for Detail
+fps = 10
+
+# Elegant Colormap
 colormap = viridis

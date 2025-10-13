@@ -1,5 +1,6 @@
 # Case 2: Multiple Seeds - Competitive Growth
 # Studies aggregate competition and fusion events
+# Enhanced for detailed capture
 
 scenario_name = Case 2 - Multiple Seeds
 
@@ -13,10 +14,16 @@ n_seeds = 12
 # Simulation
 max_iterations = 150000
 injection_mode = random
-snapshot_interval = 150
+
+# Enhanced Detail Capture
+snapshot_interval = 75
 
 # Output
 save_netcdf = true
 save_animation = true
-fps = 20
-colormap = cool
+
+# Slower Playback for Detail
+fps = 10
+
+# Elegant Colormap
+colormap = aurora

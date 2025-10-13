@@ -1,5 +1,5 @@
 # Case 1: Classic DLA - Single Central Seed
-# Baseline dendritic structure
+# Enhanced for detailed capture and elegant visualization
 
 scenario_name = Case 1 - Classic DLA
 
@@ -13,10 +13,16 @@ n_seeds = 1
 # Simulation
 max_iterations = 100000
 injection_mode = random
-snapshot_interval = 100
+
+# Enhanced Detail Capture: More frequent snapshots
+snapshot_interval = 50
 
 # Output
 save_netcdf = true
 save_animation = true
-fps = 20
-colormap = hot
+
+# Slower, More Detailed Playback
+fps = 10
+
+# Elegant Colormap
+colormap = plasma
