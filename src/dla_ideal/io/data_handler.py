@@ -96,7 +96,7 @@ class DataHandler:
             nc.scenario = metadata.get('scenario_name', 'unknown')
             nc.created = datetime.now().isoformat()
             nc.software = "dla-ideal-solver"
-            nc.version = "0.0.1"
+            nc.version = "0.0.2"
             nc.method = "random_walk_lattice"
             nc.Conventions = "CF-1.8"
             nc.title = f"DLA Simulation: {metadata.get('scenario_name', 'unknown')}"
