@@ -1,4 +1,4 @@
-"""Simulation logger for DLA simulations."""
+"""Simulation logger for DLA simulations with enhanced timing breakdown."""
 
 import logging
 from pathlib import Path
@@ -6,7 +6,7 @@ from datetime import datetime
 
 
 class SimulationLogger:
-    """Logger for DLA simulations."""
+    """Logger for DLA simulations with clear timing separation."""
     
     def __init__(self, scenario_name: str, log_dir: str = "logs", 
                 verbose: bool = True):
@@ -82,15 +82,61 @@ class SimulationLogger:
         self.info("=" * 60)
     
     def log_timing(self, timing: dict):
-        """Log timing breakdown."""
-        self.info("=" * 60)
+        """Log timing breakdown with clear categorization."""
+        self.info("=" * 70)
         self.info("TIMING BREAKDOWN")
-        self.info("=" * 60)
+        self.info("=" * 70)
         
-        for key, value in sorted(timing.items()):
-            self.info(f"  {key}: {value:.3f} s")
+        # Separate computation from output times
+        computation_times = {}
+        output_times = {}
         
-        self.info("=" * 60)
+        for key, value in timing.items():
+            if key in ['solver_init', 'simulation']:
+                computation_times[key] = value
+            elif key in ['save_netcdf', 'animation', 'gif_rendering']:
+                output_times[key] = value
+            elif key == 'total':
+                total_time = value
+            else:
+                computation_times[key] = value
+        
+        # Log computation times
+        if computation_times:
+            self.info("")
+            self.info("  COMPUTATION TIME (Simulation):")
+            self.info("  " + "-" * 60)
+            for key, value in sorted(computation_times.items()):
+                display_name = key.replace('_', ' ').title()
+                self.info(f"    {display_name:.<40} {value:>8.2f} s")
+            
+            computation_total = sum(computation_times.values())
+            self.info(f"    {'Subtotal Computation':.<40} {computation_total:>8.2f} s")
+        
+        # Log output times
+        if output_times:
+            self.info("")
+            self.info("  OUTPUT TIME (Saving Files):")
+            self.info("  " + "-" * 60)
+            for key, value in sorted(output_times.items()):
+                display_name = key.replace('_', ' ').title()
+                if key == 'animation':
+                    display_name = 'GIF Rendering & Saving'
+                elif key == 'save_netcdf':
+                    display_name = 'NetCDF Saving'
+                self.info(f"    {display_name:.<40} {value:>8.2f} s")
+            
+            output_total = sum(output_times.values())
+            self.info(f"    {'Subtotal Output':.<40} {output_total:>8.2f} s")
+        
+        # Log total time
+        self.info("")
+        self.info("  " + "=" * 60)
+        if 'total' in timing:
+            self.info(f"    {'TOTAL TIME':.<40} {timing['total']:>8.2f} s")
+        self.info("  " + "=" * 60)
+        
+        self.info("=" * 70)
     
     def finalize(self):
         """Write final summary."""

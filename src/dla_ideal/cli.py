@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Command Line Interface for DLA Solver."""
+"""Command Line Interface for DLA Solver with Enhanced Timing Display."""
 
 import argparse
 import sys
@@ -40,6 +40,60 @@ def normalize_scenario_name(scenario_name: str) -> str:
     return clean
 
 
+def print_timing_summary(timer, verbose=True):
+    """Print clear timing summary separating simulation from output."""
+    if not verbose:
+        return
+    
+    times = timer.get_times()
+    
+    print(f"\n{'=' * 70}")
+    print("TIMING SUMMARY")
+    print('=' * 70)
+    
+    # Computation times
+    print("\n  COMPUTATION (Simulation):")
+    print("  " + "-" * 66)
+    
+    if 'solver_init' in times:
+        print(f"     Solver Initialization ............ {times['solver_init']:>8.2f} s")
+    
+    if 'simulation' in times:
+        print(f"     DLA Simulation ................... {times['simulation']:>8.2f} s")
+    
+    computation_total = sum(times.get(k, 0) for k in ['solver_init', 'simulation'])
+    print(f"     {'─' * 40}")
+    print(f"     Subtotal Computation ............. {computation_total:>8.2f} s")
+    
+    # Output times
+    print(f"\n  OUTPUT (Saving Files):")
+    print("  " + "-" * 66)
+    
+    if 'save_netcdf' in times:
+        print(f"     NetCDF File Saving ............... {times['save_netcdf']:>8.2f} s")
+    
+    if 'animation' in times:
+        print(f"     GIF Rendering & Saving ........... {times['animation']:>8.2f} s")
+    
+    output_total = sum(times.get(k, 0) for k in ['save_netcdf', 'animation'])
+    print(f"     {'─' * 40}")
+    print(f"     Subtotal Output .................. {output_total:>8.2f} s")
+    
+    # Total
+    print(f"\n  {'═' * 66}")
+    if 'total' in times:
+        print(f"     TOTAL TIME ....................... {times['total']:>8.2f} s")
+    print(f"  {'═' * 66}")
+    
+    # Percentage breakdown
+    if 'total' in times and times['total'] > 0:
+        sim_pct = (computation_total / times['total']) * 100
+        out_pct = (output_total / times['total']) * 100
+        print(f"\n  Breakdown: {sim_pct:.1f}% computation, {out_pct:.1f}% output")
+    
+    print('=' * 70 + "\n")
+
+
 def run_scenario(config: dict, output_dir: str = "outputs",
                 verbose: bool = True, n_cores: int = None):
     """Run complete DLA simulation scenario."""
@@ -57,6 +111,12 @@ def run_scenario(config: dict, output_dir: str = "outputs",
     
     try:
         logger.log_parameters(config)
+        
+        # ===== PHASE 1: COMPUTATION =====
+        if verbose:
+            print(f"\n{'─' * 60}")
+            print("PHASE 1: COMPUTATION (Simulation)")
+            print('─' * 60)
         
         with timer.time_section("solver_init"):
             if verbose:
@@ -91,19 +151,28 @@ def run_scenario(config: dict, output_dir: str = "outputs",
                 if not result['fractal_dimension'] is None:
                     print(f"      D = {result['fractal_dimension']:.3f}")
         
+        # ===== PHASE 2: OUTPUT =====
+        if verbose:
+            print(f"\n{'─' * 60}")
+            print("PHASE 2: OUTPUT (Saving Files)")
+            print('─' * 60)
+        
         if config.get('save_netcdf', True):
             with timer.time_section("save_netcdf"):
                 if verbose:
-                    print("\n[3/3] Saving NetCDF and creating animation...")
+                    print("\n[3a/3] Saving NetCDF file...")
                 
                 filename = f"{clean_name}.nc"
                 DataHandler.save_netcdf(filename, result, config, output_dir)
                 
                 if verbose:
-                    print(f"      Saved: {output_dir}/{filename}")
+                    print(f"       ✓ Saved: {output_dir}/{filename}")
         
         if config.get('save_animation', True):
             with timer.time_section("animation"):
+                if verbose:
+                    print("\n[3b/3] Creating animated GIF...")
+                
                 filename = f"{clean_name}.gif"
                 
                 Animator.create_gif(
@@ -116,22 +185,24 @@ def run_scenario(config: dict, output_dir: str = "outputs",
                 )
                 
                 if verbose:
-                    print(f"      Saved: {output_dir}/{filename}")
+                    print(f"       ✓ Saved: {output_dir}/{filename}")
         
         timer.stop("total")
         logger.log_timing(timer.get_times())
         
+        # Print clear timing summary
+        print_timing_summary(timer, verbose)
+        
         if verbose:
-            print(f"\n{'=' * 60}")
-            print("SIMULATION COMPLETED SUCCESSFULLY")
-            print(f"  Total time: {timer.get_times()['total']:.2f} s")
+            print(f"{'=' * 60}")
+            print("✓ SIMULATION COMPLETED SUCCESSFULLY")
             print(f"{'=' * 60}\n")
     
     except Exception as e:
         logger.error(f"Simulation failed: {str(e)}")
         if verbose:
             print(f"\n{'=' * 60}")
-            print(f"SIMULATION FAILED: {str(e)}")
+            print(f"✗ SIMULATION FAILED: {str(e)}")
             print(f"{'=' * 60}\n")
         raise
     
@@ -205,7 +276,9 @@ def main():
         
         for i, cfg_file in enumerate(config_files, 1):
             if verbose:
-                print(f"\n[Case {i}/{len(config_files)}] Running {cfg_file.stem}...")
+                print(f"\n{'#' * 70}")
+                print(f"# RUNNING CASE {i}/{len(config_files)}: {cfg_file.stem}")
+                print(f"{'#' * 70}")
             
             config = ConfigManager.load(str(cfg_file))
             run_scenario(config, args.output_dir, verbose, args.cores)
