@@ -141,7 +141,7 @@ The slope $D$ is obtained via linear regression on $\log$-$\log$ scale. Theoreti
 ```bibtex
 @software{dla_solver_2025,
   author = {Herho, Sandy H. S. and Kaban, Siti N. and 
-            Trilaksono, Nurjanna J. and Suwarman, Rusmawan and
+            Trilaksono, Nurjanna J. and Anwar, Iwan P. and Suwarman, Rusmawan and
             Irawan, Dasapta E.},
   title = {DLA Solver: Diffusion-Limited Aggregation with Numba},
   year = {2025},
@@ -155,6 +155,7 @@ The slope $D$ is obtained via linear regression on $\log$-$\log$ scale. Theoreti
 - Sandy H. S. Herho (sandy.herho@email.ucr.edu)
 - Siti N. Kaban
 - Nurjanna J. Trilaksono
+- Iwan P. Anwar
 - Rusmawan Suwarman
 - Dasapta E. Irawan
 
