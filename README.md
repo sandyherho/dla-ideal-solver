@@ -15,6 +15,11 @@
 
 High-performance Diffusion-Limited Aggregation (DLA) solver with Numba JIT compilation and parallel rendering.
 
+<p align="center">
+  <img src="https://github.com/sandyherho/dla-ideal-solver/blob/main/.assets/anim.gif" alt="radial_injection" width="600">
+</p>
+
+
 ## Physics
 
 Simulates particle aggregation through random walks on a 2D lattice:

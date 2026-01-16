@@ -28,3 +28,5 @@ venv/
 outputs/
 logs/
 poetry.lock
+
+!.assets/*.gif
