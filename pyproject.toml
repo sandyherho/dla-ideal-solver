@@ -1,12 +1,13 @@
 [tool.poetry]
 name = "dla-ideal-solver"
-version = "0.0.2"
+version = "0.0.3"
 description = "Diffusion-Limited Aggregation (DLA) solver with Numba acceleration"
 authors = [
     "Sandy H. S. Herho <sandy.herho@email.ucr.edu>",
-    "Siti N. Kaban",
+    "Faiz R. Fajary",
     "Nurjanna J. Trilaksono",
     "Iwan P. Anwar",
+    "Faruq Khadami",
     "Rusmawan Suwarman",
     "Dasapta E. Irawan"
 ]
