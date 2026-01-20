@@ -17,11 +17,11 @@ def print_header():
     """Print ASCII art header."""
     print("\n" + "=" * 70)
     print(" " * 10 + "DIFFUSION-LIMITED AGGREGATION SOLVER")
-    print(" " * 20 + "Version 0.0.3")
+    print(" " * 20 + "Version 0.0.4")
     print("=" * 70)
-    print("\n  Authors: Sandy H. S. Herho, Faiz R. Fajary,")
-    print("           Nurjanna J. Trilaksono, Iwan P. Anwar")
-    print("           Faruq Khadami, Rusmawan Suwarman, Dasapta E. Irawan")
+    print("\n  Authors: Sandy H. S. Herho, Faiz R. Fajary, Iwan P. Anwar")
+    print("           Faruq Khadami, Nurjanna J. Trilaksono, ")
+    print("           Rusmawan Suwarman, Dasapta E. Irawan")
     print("\n  License: MIT License")
     print("=" * 70 + "\n")
 
